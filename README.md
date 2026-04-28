@@ -90,6 +90,7 @@ In der Animations-Funktion können wir den Würfel in der Rotation immer wieder 
 
 Am Ende wird der Render-Befehl aufgerufen, der das neue Kamerabild der Szene rendert.
 
+.
 > Experiment: 
 > - Verändere die Richtung der Rotation (Lasse den Würfel in verschiedene Richtungen drehen)
 > - Verändere die Rotationsgeschwindigkeit
@@ -199,6 +200,7 @@ console.error('An error occurred loading the model:', error);
 
 ℹ️ Sollte das Model nicht sichtbar sein, muss evtl die Größe angepasst werden. Nutze dazu die Zeile ```model.scale.set(2, 2, 2);``` um die Skalierung anzupassen (x,y,z skalierung entsprechend des eingestellten Faktors, zB.: 2 --> Verdoppelung der Größe).
 
+.
 
 > Experiment: 
 > - Verändere die Skalierung des Objekts
@@ -208,4 +210,17 @@ console.error('An error occurred loading the model:', error);
 
 
 .
+
+
+## 04 - Hintergrundfarbe anpassen
+
+Um die Hintergrundfarbe anzupassen, können wir die „clearColor“ des renderers verändern, zB:
+
+```javascript
+// Renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0xffaaaa); // light red background
+document.body.appendChild(renderer.domElement);
+```
 
