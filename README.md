@@ -26,7 +26,7 @@ document.body.appendChild(renderer.domElement);
 ```
 
 
-## 01 Grundbausteine verstehen:
+## 01 - Grundbausteine verstehen:
 1. *Scene*  
 Die Szene ist wie eine „leere Bühne“. Hier werden alle Dinge hinzugefügt, die angezeigt werden sollen – z. B. Objekte, Licht, etc.
 2. *Camera*  
@@ -97,4 +97,115 @@ Am Ende wird der Render-Befehl aufgerufen, der das neue Kamerabild der Szene ren
 
 .
   
-## 02 Licht
+## 02 - Licht
+
+Wir können der Szene ein Licht hinzufügen, damit die räumliche Darstellung realistischer erscheint, indem zB. Schattierungen entstehen.
+
+**1. Erstelle ein „*Directional Light*“**  
+
+```javascript
+// Light
+const color = 0xFFFFFF; //Licht Farbe
+const intensity = 1; //Licht Itensität
+const light = new THREE.DirectionalLight(color, intensity);
+light.position.set(0, 0, 10); //Position
+light.target.position.set(-5, 0, 0); //Ziel
+scene.add(light);
+scene.add(light.target);
+```
+
+<span style="color:red">**Test: Die Darstellung ändert sich nicht!**</span>
+
+Dies liegt daran, dass wir dem Würfel ein „Basic Material“ zugewiesen haben. Dieses Material reagiert nicht auf Licht. Wir benötigen einen anderen Material-Typ um das Licht auf der Oberfläche des Würfels sichtbar zu machen.
+
+**2. Wir ändern das Material des Würfels in ein „Standard Material“**
+
+```javascript
+// const material = new THREE.MeshBasicMaterial({ color: 0x00aaff });
+const material = new THREE.MeshStandardMaterial({ color: 0x00aaff });
+```
+
+--> Das Licht ist nun auf der Würfeloberfläche sichtbar
+
+**3. Wir können weitere Lichtquellen hinzufügen. zB ein Ambient Light um die generelle
+Helligkeit der Szenerie zu erhöhen.**
+
+```javascript
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(ambientLight);
+```
+.
+
+> Experiment: 
+> - Verändere die Lichtfarbe
+> - Verändere die Lichtintensität
+> - Experimentiere mit verschiedenen Kombinationen von Lichtfarbe und Materialfarbe
+> - Verändere die Art der Geometrie, zB.:
+>   - Sphere
+>   - Torus
+>   - ...
+
+.
+
+## 03 - Ein 3D Modell laden
+
+Dieses Beispiel basiert auf: https://threejs.org/manual/#en/loading-3d-models
+
+Statt einfachen Geometrien können auch komplexe 3D Modelle geladen werden (zB
+Modelle, die in Blender erstellt wurden).
+
+Ein gutes Transfer Format ist hier glTF (GL Transmission Format) — Entweder im .GLB oder im .GLTF File-Format.
+
+In diesem Starter Kit sind schon die entsprechenden Erweiterungen für die Model-Loader hinzugefügt und korrekt verlinkt.
+(*lib/examples/loaders/GLTFLoader.js & lib/examples/loaders/utils/BufferGeometryUtils.js*)
+
+**1. Als erstes müssen wir die entsprechende Erweiterung importieren**
+
+```javascript
+import { GLTFLoader } from './lib/examples/jsm/loaders/GLTFLoader.js';
+```
+
+--> Füge diesen Befehl oben im main.js File an.  
+Damit wird die entsprechende Erweiterung importiert
+
+**2. 3D-Model bereitstellen**
+
+Nun benötigen wir ein 3D Model im entsprechenden Format, das geladen werden soll.  
+Erstelle einen Ordner ***models*** und lade das 3D-Model als *.glb-Datei* in diesen Ordner.
+
+**3. 3D-Model laden**
+
+Füge den GLTFLoader code hinzu, um das Model zu laden:
+
+```javascript
+//Load GLB Model
+let model;
+const loader = new GLTFLoader();
+loader.load(
+'./models/flying_robot.glb', // path to your model
+function (gltf) {
+model = gltf.scene;
+//model.scale.set(2, 2, 2);
+scene.add(model);
+},
+undefined,
+function (error) {
+console.error('An error occurred loading the model:', error);
+}
+);
+```
+
+*Alle Zeilen Code, die den Cube betreffen, können nun gelöscht oder auskommentiert werden… Wir wollen nur noch das Model sehen*
+
+ℹ️ Sollte das Model nicht sichtbar sein, muss evtl die Größe angepasst werden. Nutze dazu die Zeile ```model.scale.set(2, 2, 2);``` um die Skalierung anzupassen (x,y,z skalierung entsprechend des eingestellten Faktors, zB.: 2 --> Verdoppelung der Größe).
+
+
+> Experiment: 
+> - Verändere die Skalierung des Objekts
+> - Animiere das Objekt, zB Drehung
+>   - Achte darauf, dass „null“ korrekt abgefangen wird
+> - Verändere Kamera Position und/oder Objekt Position
+
+
+.
+
