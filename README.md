@@ -142,8 +142,8 @@ scene.add(ambientLight);
 > - Verändere die Lichtintensität
 > - Experimentiere mit verschiedenen Kombinationen von Lichtfarbe und Materialfarbe
 > - Verändere die Art der Geometrie, zB.:
->   - Sphere
->   - Torus
+>   - Sphere (https://threejs.org/docs/#SphereGeometry)
+>   - Torus (https://threejs.org/docs/#TorusGeometry)
 >   - ...
 
 .
